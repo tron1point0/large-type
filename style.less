@@ -1,0 +1,44 @@
+.in {
+    position: relative;
+    margin: 1em auto;
+    width: 95%;
+    max-width: 20em;
+    text-align: center;
+    display: block;
+    z-index: 1000;
+
+    @media print {
+        display: none;
+    }
+}
+
+.out {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    text-align: center;
+    top: 3em;
+    right: 1em;
+    bottom: 1em;
+    left: 1em;
+    z-index: 500;
+
+    font-family: serif;
+
+    & > span {
+        font-size: 100px;
+        padding: 0.1em;
+        margin: 0.5em 0;
+        white-space: pre;
+    }
+
+    &:not(.shadow) > span {
+        transition-property: font-size;
+        transition-duration: 100ms;
+    }
+
+    &.shadow {
+        visibility: hidden;
+    }
+}
+
