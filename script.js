@@ -5,27 +5,26 @@ $(document).ready(function() {
     const MIN_SIZE = 10;
 
     var target = {
-            container: $(".out"),
+            el: $(".out"),
             text: undefined,
             h: undefined,
             w: undefined,
         },
         shadow = {
-            container: target.container
+            el: target.el
                 .clone()
                 .addClass("shadow")
                 .appendTo("body"),
-            text: undefined,
         },
         size;
 
-    target.text = target.container.children("span");
-    shadow.text = shadow.container.children("span");
+    target.text = target.el.children("span");
+    shadow.text = shadow.el.children("span");
     setTarget();
-    size = parseInt(target.text.css("font-size"));
+    size = parseInt(target.el.css("font-size"));
 
-    $(".in").on("keyup", function() {
-        setText($(this).val());
+    $(".out").on("keyup", function(event) {
+        setText($(this).text());
     });
 
     $(window).on("resize", function() {
@@ -55,24 +54,24 @@ $(document).ready(function() {
             }
         }
 
-        finished(size);
+        finished();
+    }
 
-        function isBounded() {
-            return shadow.text.outerWidth() < target.w &&
-                shadow.text.outerHeight() < target.h;
-        }
+    function setSize() {
+        shadow.text.css("font-size", size);
+    }
 
-        function setSize() {
-            shadow.text.css("font-size", size);
-        }
+    function finished() {
+        target.text.css("font-size",size);
+    }
 
-        function finished() {
-            target.text.css("font-size",size).text(value);
-        }
+    function isBounded() {
+        return shadow.text.outerWidth() < target.w &&
+            shadow.text.outerHeight() < target.h;
     }
 
     function setTarget() {
-        target.h = target.container.innerHeight();
-        target.w = target.container.innerWidth();
+        target.h = target.el.innerHeight();
+        target.w = target.el.innerWidth();
     }
 });
