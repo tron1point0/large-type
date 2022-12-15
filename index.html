@@ -1,13 +1,23 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Large Type</title>
-        <link rel="stylesheet/less" type="text/css" href="style.less">
-        <script type="text/javascript" src="lib/jquery-2.1.4.min.js"></script>
-        <script type="text/javascript" src="lib/less.min.js"></script>
-    </head>
-    <body>
-        <div class="out"><span contenteditable autofocus>*hello*</span></div>
-    </body>
-    <script type="text/javascript" src="script.js"></script>
+<html lang="en">
+
+<head>
+    <title>Large Type</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet/less" type="text/css" href="style.less">
+    <script type="text/javascript" src="lib/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="lib/less.min.js"></script>
+</head>
+
+<body>
+    <div class="fill-text full-viewport" autofocus contenteditable>*hello*</div>
+    <div class="sidebar">
+        <textarea id="style">
+            font-family: sans-serif;
+            font-weight: bold;
+        </textarea>
+    </div>
+</body>
+<script type="text/javascript" src="script.js"></script>
+
 </html>

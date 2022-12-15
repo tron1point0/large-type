@@ -1,77 +1,50 @@
-$(document).ready(function() {
-    /**
-     * Minimum font size, in CSS pixels.
-     */
+$(document).on('keyup focus resize.force', '.fill-text', function(event) {
     const MIN_SIZE = 10;
 
-    var target = {
-            el: $(".out"),
-            text: undefined,
-            h: undefined,
-            w: undefined,
-        },
-        shadow = {
-            el: target.el
-                .clone()
-                .addClass("shadow")
-                .appendTo("body"),
-        },
-        size;
+    let $target = $(event.target),
+        $shadow = $target.clone()
+                         .addClass('shadow')
+                         .wrapInner('<span>')
+                         .appendTo('body'),
+        span = $shadow.get(0).firstChild,
+        // TODO: Support padding sizes that are relative to the font size.
+        //       (Padding that's specified in `em`s or `%`.)
+        width = $target.innerWidth()
+                - parseInt($target.css('padding-left'))
+                - parseInt($target.css('padding-right')),
+        height = $target.innerHeight()
+                - parseInt($target.css('padding-top'))
+                - parseInt($target.css('padding-bottom')),
+        low = MIN_SIZE,
+        high = height,
+        mid = (high + low) >> 1;
 
-    target.text = target.el.children("span");
-    shadow.text = shadow.el.children("span");
-    setTarget();
-    size = parseInt(target.el.css("font-size"));
+    while (low <= high) {
+        $shadow.css('font-size', mid);
 
-    $(".out").on("keyup", function(event) {
-        setText($(this).text());
-    });
-
-    $(window).on("resize", function() {
-        setTarget();
-    });
-
-    function setText(value) {
-        if (value === "") {
-            size = MIN_SIZE;
-            finished();
-            return;
+        if (span.scrollHeight > height || span.scrollWidth > width) {
+            high = mid - 1;
+        } else {
+            low = mid + 1;
         }
-
-        shadow.text.text(value);
-
-        // ±1 offset is to prevent bouncing between sizes
-        var minSize = isBounded() ? size - 1 : MIN_SIZE,
-            maxSize = isBounded() ? target.h : size + 1;
-
-        while (maxSize - minSize > 1) {
-            size = Math.floor((minSize + maxSize)/2);
-            setSize();
-            if (isBounded()) {
-                minSize = size;
-            } else {
-                maxSize = size;
-            }
-        }
-
-        finished();
+        mid = (high + low) >> 1;
     }
 
-    function setSize() {
-        shadow.text.css("font-size", size);
-    }
-
-    function finished() {
-        target.text.css("font-size",size);
-    }
-
-    function isBounded() {
-        return shadow.text.outerWidth() < target.w &&
-            shadow.text.outerHeight() < target.h;
-    }
-
-    function setTarget() {
-        target.h = target.el.innerHeight();
-        target.w = target.el.innerWidth();
-    }
+    $target.css('font-size', mid);
+    $shadow.remove();
 });
+
+$('#style').on('change', (event) => {
+    $('.fill-text').parent().attr("style", $(event.target).val())
+                   .end().trigger('resize.force');
+});
+
+$(window).on('resize', function() {
+    $('.fill-text').trigger('resize.force');
+});
+
+$(document).ready(function() {
+    $('#style').trigger('change');
+    $('.fill-text').trigger('resize.force').focus();
+});
+
