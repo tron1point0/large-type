@@ -1,4 +1,4 @@
-$(document).on('keyup focus resize.force', '.fill-text', function(event) {
+$(document).on('keyup focus resize.force', '.fill-text', (event) => {
     const MIN_SIZE = 10;
 
     let $target = $(event.target),
@@ -39,11 +39,11 @@ $('#style').on('change', (event) => {
                    .end().trigger('resize.force');
 });
 
-$(window).on('resize', function() {
+$(window).on('resize', () => {
     $('.fill-text').trigger('resize.force');
 });
 
-$(document).ready(function() {
+$(document).ready(() => {
     $('#style').trigger('change');
     $('.fill-text').trigger('resize.force').focus();
 });
