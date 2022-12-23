@@ -1,7 +1,6 @@
 $(document).on('keyup focus resize.force', '.fill-text', (event) => {
-    const MIN_SIZE = 10;
-
-    let $target = $(event.target),
+    const MIN_SIZE = 10,
+        $target = $(event.target),
         $shadow = $target.clone()
                          .addClass('shadow')
                          .wrapInner('<span>')
@@ -14,8 +13,8 @@ $(document).on('keyup focus resize.force', '.fill-text', (event) => {
                 - parseInt($target.css('padding-right')),
         height = $target.innerHeight()
                 - parseInt($target.css('padding-top'))
-                - parseInt($target.css('padding-bottom')),
-        low = MIN_SIZE,
+                - parseInt($target.css('padding-bottom'));
+    let low = MIN_SIZE,
         high = height,
         mid = (high + low) >> 1;
 
